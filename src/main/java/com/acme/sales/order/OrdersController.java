@@ -69,5 +69,34 @@ public class OrdersController {
 		orderRepo.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+	
+	@GetMapping("customer/{customerId}")
+	public ResponseEntity<Iterable<Order>> GetOrderNotCustomer(@PathVariable int customerId){
+		var orders = orderRepo.findByCustomerIdNot(customerId);
+		return new ResponseEntity<Iterable<Order>>(orders,HttpStatus.OK);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@PutMapping("review/{id}")
+	public ResponseEntity SetOrderToZero(@PathVariable int id, @RequestBody Order order) {
+		var newTotal = order.getTotal() <= 100 ? 0 :1000;
+		order.setTotal(newTotal);
+		
+		return Update(id,order);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@PutMapping("approve/{id}")
+	public ResponseEntity SetOrderTo5000(@PathVariable int id, @RequestBody Order order) {
+		order.setTotal(5000);
+		return Update(id, order);
+	}
+	@SuppressWarnings("rawtypes")
+	@PutMapping("reject/{id}")
+	public ResponseEntity SetOrderToNegative5000(@PathVariable int id, @RequestBody Order order) {
+		order.setTotal(-5000);
+		return Update(id, order);
+	}
+	
 
 }
