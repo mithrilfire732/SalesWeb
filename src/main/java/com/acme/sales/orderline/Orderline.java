@@ -1,12 +1,19 @@
 package com.acme.sales.orderline;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.acme.sales.order.Order;
 
+@Entity(name="orderlines")
 public class Orderline {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Column(length=30, nullable=false)
 	private String product;
